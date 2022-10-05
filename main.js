@@ -1,46 +1,65 @@
 let typeTemp = "imperial";
 const cityname = document.querySelector("#search");
 const btn = document.querySelector('button');
-const name = cityname.value;
+let url;
 
 
-async function getWeather(location, units){
-    const response = await fetch('http://api.openweathermap.org/data/2.5/weather?q='+ location +'&units='+ units +'&APPID=d02dd8bb4e86ce62227a8c23f7214c11', {mode: 'cors'});
+async function getWeather(url = 'http://api.openweathermap.org/data/2.5/weather?q=london&units=imperial&APPID=d02dd8bb4e86ce62227a8c23f7214c11'){
+    const response = await fetch(url, {mode:"cors"})
     const weatherData = await response.json();
-    // const city = weatherData.name;
-    // const temp = weatherData.main.temp;
-    // const humidity = weatherData.main.humidity;
-    // const tempMin  = weatherData.main.temp_min;
-    // const tempMax  = weatherData.main.temp_max;
-    displayWeather(weatherData.name, weatherData.main.temp);
+    const city = weatherData.name;
+    const temp = weatherData.main.temp;
+    const humidity = weatherData.main.humidity;
+    const tempMin  = weatherData.main.temp_min;
+    const tempMax  = weatherData.main.temp_max;
+    const description = weatherData.weather[0].description;
+    const code = weatherData.weather[0].icon;
+    displayWeather(city, temp, description, code);
     console.log(weatherData);
-    return weatherData
 }
 
- let weather = getWeather("london", "imperial");
-console.log(weather)
-function displayWeather(name, temp){
+
+function displayWeather(name, temp, description, code){
     const domContain = document.querySelector("#dom-container");
-    domContain.innerHTML = name +' ' + parseInt(temp); 
+    domContain.innerHTML = 
+    `<div id = temp>${name} ${parseInt(temp)}<sup>o</sup></div>
+    <div id= description>${description}</div>
+    <img src="http://openweathermap.org/img/wn/${code}@2x.png">` 
 }
 
 const toggle = document.querySelector("#toggle");
-toggle.addEventListener('change',(name)=>{
-    if(name === null){
-        name = "london"
-    }
+
+toggle.addEventListener('change', ()=> {changeToggle(cityname.value)
+console.log(cityname.value)})
+
+function changeToggle(name){
     if(toggle.checked === true){
-        getWeather(name, "metric"); 
+        if (name === ""){
+            url = 'http://api.openweathermap.org/data/2.5/weather?q=london&units=metric&APPID=d02dd8bb4e86ce62227a8c23f7214c11';
+            getWeather(url)
+        }
+        else{
+            url = 'http://api.openweathermap.org/data/2.5/weather?q='+ name +'&units=metric&APPID=d02dd8bb4e86ce62227a8c23f7214c11';
+            getWeather(url)
+        }
         typeTemp = "metric"
     }
     if(toggle.checked === false){
-        getWeather(name, "imperial"), 
+        if (name === ""){
+            url = 'http://api.openweathermap.org/data/2.5/weather?q=london&units=imperial&APPID=d02dd8bb4e86ce62227a8c23f7214c11';
+            getWeather(url)
+        }
+        else{
+            url = 'http://api.openweathermap.org/data/2.5/weather?q='+ name +'&units=imperial&APPID=d02dd8bb4e86ce62227a8c23f7214c11';
+            getWeather(url)
+        }
         typeTemp = "imperial"
     }
-})
-
+}   
 
 btn.addEventListener('click', ()=>{
-    getWeather(cityname.value, typeTemp)
+    url = 'http://api.openweathermap.org/data/2.5/weather?q='+ cityname.value +'&units=imperial&APPID=d02dd8bb4e86ce62227a8c23f7214c11';
+    getWeather(url)
 })
 
+getWeather();

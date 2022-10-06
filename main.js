@@ -22,9 +22,11 @@ async function getWeather(url = 'http://api.openweathermap.org/data/2.5/weather?
 function displayWeather(name, temp, description, code){
     const domContain = document.querySelector("#dom-container");
     domContain.innerHTML = 
-    `<div id = temp>${name} ${parseInt(temp)}<sup>o</sup></div>
-    <div id= description>${description}</div>
-    <img src="http://openweathermap.org/img/wn/${code}@2x.png">` 
+    `<div class = info>
+        <div id = temp>${name} ${parseInt(temp)}<sup>o</sup></div>
+        <div id= description>${description}</div>
+    </div>
+    <img id="weather-pic" src="http://openweathermap.org/img/wn/${code}@2x.png">` 
 }
 
 const toggle = document.querySelector("#toggle");
@@ -58,7 +60,7 @@ function changeToggle(name){
 }   
 
 btn.addEventListener('click', ()=>{
-    url = 'http://api.openweathermap.org/data/2.5/weather?q='+ cityname.value +'&units=imperial&APPID=d02dd8bb4e86ce62227a8c23f7214c11';
+    url = 'http://api.openweathermap.org/data/2.5/weather?q='+ cityname.value +'&units='+typeTemp+'&APPID=d02dd8bb4e86ce62227a8c23f7214c11';
     getWeather(url)
 })
 

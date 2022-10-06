@@ -11,17 +11,20 @@
 <body>
     <div id="main">
         <!-- f to c slider -->
-        <sup>o</sup>F
-        <label class="switch" for="toggle" >
-            <input name="toggle" id="toggle" type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <sup>o</sup>C
-        <form onsubmit="return false">
-            <input type="text" name="search" id= "search" placeholder="City...">
-            <button type="submit" >Submit</button>
-            
-        </form>
+        <div id="temp-and-search">
+            <div id="slider">
+                <div class="temp"><sup>o</sup>F</div>
+                <label class="switch" for="toggle" >
+                    <input name="toggle" id="toggle" type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <div class="temp"><sup>o</sup>C</div>
+            </div>
+            <form onsubmit="return false">
+                <input type="text" name="search" id= "search" placeholder="City...">
+                <button type="submit"><img src="magnifying-glass-search.png" alt=""></button>
+            </form>
+        </div>
         <div id="dom-container">
             <!-- weather  -->
             <!-- picture -->
